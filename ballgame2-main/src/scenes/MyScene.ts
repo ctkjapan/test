@@ -261,7 +261,7 @@ export default class MyScene extends Phaser.Scene {
         // const x = isPc ? 400 : window.innerWidth / 2;
         const x = this.sys.canvas.width / 2;
         const y = this.sys.canvas.height / 2 - 100;
-        const scoreText = `オトドゲーム`;
+        const scoreText = `ねおちゃんねるゲーム`;
         const title = this.add.text(x, y, scoreText, { fontSize: '40px', color: '#fff', align: 'center' });
         title.setOrigin(0.5);
         title.setShadow(5, 5, '#ea5198', 5);
