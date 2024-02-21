@@ -55,7 +55,7 @@ export default class MyScene extends Phaser.Scene {
 
     preload() {
         ['0', '1', '2', '3', '4', '5', '6', '7'].forEach((key) => {
-            this.load.image(key, `./${key}.png`);
+            this.load.image(key, `../img/${key}.png`);
         });
     }
 
@@ -86,7 +86,7 @@ export default class MyScene extends Phaser.Scene {
         // }
 
         // 最初のボールを作成
-        this.ball = this.getBall(this.sys.canvas.width / 2, 100, this.ballTypes[0], false);
+        this.ball = this.getBall(this.sys.canvas.width / 2, GAMEOVER_LINE_Y - 50, this.ballTypes[0], false);
 
         this.drawGameTitleTexts();
 
@@ -215,7 +215,7 @@ export default class MyScene extends Phaser.Scene {
         // 次のボール作る
         const ballType = this.ballTypes[random(0, 3)];
         // this.ball = this.getBall(400, 100, ballType);
-        this.ball = this.getBall(this.sys.canvas.width / 2, 100, ballType);
+        this.ball = this.getBall(this.sys.canvas.width / 2, GAMEOVER_LINE_Y - 50, ballType);
     }
 
     // 次の大きさのボールつくる
