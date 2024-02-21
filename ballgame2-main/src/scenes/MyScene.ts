@@ -172,6 +172,7 @@ export default class MyScene extends Phaser.Scene {
                 if (currentType) {
                     const score = this.add.text(pos.x, pos.y, currentType.score.toString(), { fontSize: currentType.size + 'px', color: '#fff', align: 'center' });
                     score.setOrigin(0.5);
+                    score.setStroke('#ea5198', 2);
                     setTimeout(() => {
                         score.destroy();
                     }, 800);
@@ -262,7 +263,7 @@ export default class MyScene extends Phaser.Scene {
         const x = this.sys.canvas.width / 2;
         const y = this.sys.canvas.height / 2 - 100;
         const scoreText = `ねおちゃんねるゲーム`;
-        const title = this.add.text(x, y, scoreText, { fontSize: '40px', color: '#fff', align: 'center' });
+        const title = this.add.text(x, y, scoreText, { fontSize: '38px', color: '#fff', align: 'center' });
         title.setOrigin(0.5);
         title.setShadow(5, 5, '#ea5198', 5);
 
