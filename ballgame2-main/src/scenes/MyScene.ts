@@ -55,7 +55,7 @@ export default class MyScene extends Phaser.Scene {
 
     preload() {
         ['0', '1', '2', '3', '4', '5', '6', '7'].forEach((key) => {
-            this.load.image(key, `../img/${key}.png`);
+            this.load.image(key, `./img/${key}.png`);
         });
     }
 
