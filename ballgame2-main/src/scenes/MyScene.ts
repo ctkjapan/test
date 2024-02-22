@@ -175,9 +175,10 @@ export default class MyScene extends Phaser.Scene {
                     score.setOrigin(0.5);
                     score.setStroke('#ea5198', 2);
                     score.depth = 10;
+                    score.alpha = 0.8;
                     setTimeout(() => {
                         score.destroy();
-                    }, 800);
+                    }, 400 + currentType.size);
                 }
 
                 // ボールが消えたときに空中に残ることがあるので、生きているボールに下方向の力を加える
