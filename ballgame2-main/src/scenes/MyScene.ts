@@ -66,7 +66,7 @@ export default class MyScene extends Phaser.Scene {
 
     preload() {
         ['0', '1', '2', '3', '4', '5', '6', '7'].forEach((key) => {
-            this.load.image(key, `./img/${key}.png?240222_4`);
+            this.load.image(key, `./img/${key}.png?240222_5`);
         });
     }
 
@@ -89,12 +89,12 @@ export default class MyScene extends Phaser.Scene {
         this.ballTypes = [
             { score: 10, size: Math.round(this.sys.canvas.height / 30), color: 0xff5733, key: '0' },
             { score: 20, size: Math.round(this.sys.canvas.height / 20), color: 0x00bfa5, key: '1' },
-            { score: 30, size: Math.round(this.sys.canvas.height / 15), color: 0x6f42c1, key: '2' },
-            { score: 50, size: Math.round(this.sys.canvas.height / 10), color: 0x6f42c1, key: '3' },
-            { score: 70, size: Math.round(this.sys.canvas.height / 7), color: 0x2ecc71, key: '4' },
-            { score: 100, size: Math.round(this.sys.canvas.height / 5), color: 0xffc107, key: '5' },
-            { score: 250, size: Math.round(this.sys.canvas.height / 3), color: 0x3498db, key: '6' },
-            { score: 500, size: Math.round(this.sys.canvas.height / 1.75), color: 0xd32f2f, key: '7' },
+            { score: 30, size: Math.round(this.sys.canvas.height / 13), color: 0x6f42c1, key: '2' },
+            { score: 50, size: Math.round(this.sys.canvas.height / 8), color: 0x6f42c1, key: '3' },
+            { score: 70, size: Math.round(this.sys.canvas.height / 6), color: 0x2ecc71, key: '4' },
+            { score: 100, size: Math.round(this.sys.canvas.height / 4), color: 0xffc107, key: '5' },
+            { score: 250, size: Math.round(this.sys.canvas.height / 2.75), color: 0x3498db, key: '6' },
+            { score: 500, size: Math.round(this.sys.canvas.height / 1.65), color: 0xd32f2f, key: '7' },
         ];
 
         // クリックした時
@@ -159,7 +159,7 @@ export default class MyScene extends Phaser.Scene {
                 if ((this.ball !== ball1 && this.ball !== ball2 && ball1 === this.lastBall) || ball2 === this.lastBall) {
                     setTimeout(() => {
                         this.nextBallReady = true;
-                    }, 200);
+                    }, 400);
                 }
                 if (o1.label !== 'Circle Body' || o2.label !== 'Circle Body') {
                     return;
@@ -184,7 +184,7 @@ export default class MyScene extends Phaser.Scene {
                 }
                 setTimeout(() => {
                     this.nextBallReady = true;
-                }, 200);
+                }, 400);
 
                 // スコア加算
                 const currentType = this.ballTypes.find((type) => type.size === width1);
