@@ -1,39 +1,32 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ballgame2</title>
-    <style>
-      canvas {
-          margin: auto;
-          display: block;
-          border: 1px solid #CCC;
-      }
-      body {
-          background: #000;
-          margin: 0;
-          padding: 30px;
-      }
-      @media screen and (max-width: 800px) {
-          body {
-              background: #000;
-              margin: 0;
-              padding: 0;
-          }
-          canvas {
-              border: 0px solid #CCC;
-          }
-          a {
-              display: none;
-          }
-      }
-    </style>
-    <script type="module" crossorigin src="./assets/index-a9f660d6.js"></script>
-  </head>
-  <body>
-    
-    <a target="_blank" href="https://github.com/babu-ch/ballgame2">source</a>
-  </body>
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="msapplication-tap-highlight" content="no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>ねおちゃんねるゲーム</title>
+  <link rel="shortcut icon" href="./favicon.ico?240222_2">
+  <link rel="stylesheet" href="./style.css?240222_2" type="text/css">
+  
+  <script type="module" crossorigin src="./assets/index-e17db146.js"></script>
+</head>
+
+<body>
+  <div class="wave"></div>
+  <div id="game"></div>
+  <script>
+    // let hue = 0;
+    // const intervalID = setInterval(async () => {
+    //   const $canvas = document.getElementById('game');
+    //   if (!$canvas) return;
+    //   hue += 0.1;
+    //   if (360 < hue) hue -= 360;
+    //   $canvas.style.filter = 'hue-rotate(' + hue + 'deg) drop-shadow(24px 12px 4px #4444dd)';
+    // }, 100);
+  </script>
+</body>
+
 </html>

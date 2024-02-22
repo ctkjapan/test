@@ -7,7 +7,7 @@ import Vector2 = Phaser.Math.Vector2;
 import CollisionStartEvent = Phaser.Physics.Matter.Events.CollisionStartEvent;
 
 // ゲームオーバーにする高さ
-const GAMEOVER_LINE_Y = 150;
+// const GAMEOVER_LINE_Y = 150;
 
 type BallType = {
     score: number;
@@ -36,6 +36,9 @@ export default class MyScene extends Phaser.Scene {
     private scoreDisplay?: Text[];
     private scoreDisplayCount: number;
 
+    // ゲームオーバーにする高さ
+    private gameOverLineY: number;
+
     constructor() {
         super({ key: 'myscene' });
         this.balls = [];
@@ -54,6 +57,9 @@ export default class MyScene extends Phaser.Scene {
             { score: 250, size: 175, color: 0x3498db, key: '6' },
             { score: 500, size: 250, color: 0xd32f2f, key: '7' },
         ];
+
+        this.gameOverLineY = 150;
+
         this.scoreDisplay = [];
         this.scoreDisplayCount = 0;
     }
@@ -78,6 +84,18 @@ export default class MyScene extends Phaser.Scene {
         this.nextBallReady = true;
         this.balls = [];
         this.scoreText = this.add.text(0, 0, `score: ${this.score}`);
+        this.gameOverLineY = this.sys.canvas.height / 5;
+
+        this.ballTypes = [
+            { score: 10, size: Math.round(this.sys.canvas.height / 30), color: 0xff5733, key: '0' },
+            { score: 20, size: Math.round(this.sys.canvas.height / 20), color: 0x00bfa5, key: '1' },
+            { score: 30, size: Math.round(this.sys.canvas.height / 15), color: 0x6f42c1, key: '2' },
+            { score: 50, size: Math.round(this.sys.canvas.height / 10), color: 0x6f42c1, key: '3' },
+            { score: 70, size: Math.round(this.sys.canvas.height / 7), color: 0x2ecc71, key: '4' },
+            { score: 100, size: Math.round(this.sys.canvas.height / 5), color: 0xffc107, key: '5' },
+            { score: 250, size: Math.round(this.sys.canvas.height / 3), color: 0x3498db, key: '6' },
+            { score: 500, size: Math.round(this.sys.canvas.height / 1.75), color: 0xd32f2f, key: '7' },
+        ];
 
         // クリックした時
         // if (isPc) {
@@ -91,7 +109,7 @@ export default class MyScene extends Phaser.Scene {
         // }
 
         // 最初のボールを作成
-        this.ball = this.getBall(this.sys.canvas.width / 2, GAMEOVER_LINE_Y - 50, this.ballTypes[0], false);
+        this.ball = this.getBall(this.sys.canvas.width / 2, this.gameOverLineY - 50, this.ballTypes[0], false);
 
         this.drawGameTitleTexts();
 
@@ -155,7 +173,7 @@ export default class MyScene extends Phaser.Scene {
                 // 大きさが同じボールのみ消す
                 if (width1 !== width2) {
                     // ゲームオーバー判定  最後のボールがラインを超えたか？
-                    if ((ball1 === this.lastBall || ball2 === this.lastBall) && this.lastBall!.y < GAMEOVER_LINE_Y) {
+                    if ((ball1 === this.lastBall || ball2 === this.lastBall) && this.lastBall!.y < this.gameOverLineY) {
                         this.gameOver = true;
                         this.drawGameOverTexts();
                     }
@@ -191,7 +209,7 @@ export default class MyScene extends Phaser.Scene {
                                 this.scoreDisplay[count].destroy();
                             }
                         },
-                        400 + currentType.size,
+                        400 + currentType.size * 5,
                         this.scoreDisplayCount
                     );
                 }
@@ -233,7 +251,7 @@ export default class MyScene extends Phaser.Scene {
         // 次のボール作る
         const ballType = this.ballTypes[random(0, 3)];
         // this.ball = this.getBall(400, 100, ballType);
-        this.ball = this.getBall(this.sys.canvas.width / 2, GAMEOVER_LINE_Y - 50, ballType);
+        this.ball = this.getBall(this.sys.canvas.width / 2, this.gameOverLineY - 50, ballType);
     }
 
     // 次の大きさのボールつくる
@@ -302,7 +320,7 @@ export default class MyScene extends Phaser.Scene {
 
             // ゲームオーバーの線
             // this.add.line(0, GAMEOVER_LINE_Y, 1600, 0, 0, 0, 0xffffff);
-            const gameoverLine = this.add.line(0, GAMEOVER_LINE_Y, 0, 0, this.sys.canvas.width * 2, 0, 0xea5198);
+            const gameoverLine = this.add.line(0, this.gameOverLineY, 0, 0, this.sys.canvas.width * 2, 0, 0xea5198);
             gameoverLine.setLineWidth(3);
         });
         button.setInteractive();
