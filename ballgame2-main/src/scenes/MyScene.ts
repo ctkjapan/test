@@ -33,6 +33,9 @@ export default class MyScene extends Phaser.Scene {
     private gameOver: boolean;
     private ballTypes: BallType[];
 
+    private scoreDisplay?: Text[];
+    private scoreDisplayCount: number;
+
     constructor() {
         super({ key: 'myscene' });
         this.balls = [];
@@ -51,6 +54,8 @@ export default class MyScene extends Phaser.Scene {
             { score: 250, size: 175, color: 0x3498db, key: '6' },
             { score: 500, size: 250, color: 0xd32f2f, key: '7' },
         ];
+        this.scoreDisplay = [];
+        this.scoreDisplayCount = 0;
     }
 
     preload() {
@@ -171,14 +176,24 @@ export default class MyScene extends Phaser.Scene {
 
                 // 点表示
                 if (currentType) {
-                    const score = this.add.text(pos.x, pos.y, currentType.score.toString(), { fontSize: currentType.size + 'px', color: '#fff', align: 'center' });
-                    score.setOrigin(0.5);
-                    score.setStroke('#ea5198', 2);
-                    score.depth = 10;
-                    score.alpha = 0.8;
-                    setTimeout(() => {
-                        score.destroy();
-                    }, 400 + currentType.size);
+                    this.scoreDisplayCount++;
+                    if (this.scoreDisplay) {
+                        this.scoreDisplay[this.scoreDisplayCount] = this.add.text(pos.x, pos.y, currentType.score.toString(), { fontSize: currentType.size + 'px', color: '#fff', align: 'center' });
+                        this.scoreDisplay[this.scoreDisplayCount].setOrigin(0.5);
+                        this.scoreDisplay[this.scoreDisplayCount].setStroke('#ea5198', 2);
+                        this.scoreDisplay[this.scoreDisplayCount].depth = 10;
+                        this.scoreDisplay[this.scoreDisplayCount].alpha = 0.8;
+                    }
+
+                    setTimeout(
+                        (count: number) => {
+                            if (this.scoreDisplay) {
+                                this.scoreDisplay[count].destroy();
+                            }
+                        },
+                        400 + currentType.size,
+                        this.scoreDisplayCount
+                    );
                 }
 
                 // ボールが消えたときに空中に残ることがあるので、生きているボールに下方向の力を加える
