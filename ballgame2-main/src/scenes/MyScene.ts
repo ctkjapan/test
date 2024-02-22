@@ -100,6 +100,7 @@ export default class MyScene extends Phaser.Scene {
         // ball.setCircle(type.size / 2);
         ball.setCircle(type.size / 2.5);
         ball.setBounce(0.2);
+        ball.depth = 1;
         if (isRandomRotation) {
             ball.setRotation(random(360));
         }
@@ -173,6 +174,7 @@ export default class MyScene extends Phaser.Scene {
                     const score = this.add.text(pos.x, pos.y, currentType.score.toString(), { fontSize: currentType.size + 'px', color: '#fff', align: 'center' });
                     score.setOrigin(0.5);
                     score.setStroke('#ea5198', 2);
+                    score.depth = 10;
                     setTimeout(() => {
                         score.destroy();
                     }, 800);
@@ -245,6 +247,7 @@ export default class MyScene extends Phaser.Scene {
         const title = this.add.text(x, y, scoreText, { fontSize: '40px', color: '#fff', backgroundColor: '#ea5198', align: 'center' });
         title.setOrigin(0.5);
         title.setPadding(10, 10);
+        title.depth = 100;
 
         // const buttonX = isPc ? 400 : window.innerWidth / 2;
         const buttonX = this.sys.canvas.width / 2;
@@ -252,6 +255,7 @@ export default class MyScene extends Phaser.Scene {
         const button = this.add.text(buttonX, buttonY, 'RETRY', { fontSize: '32px', color: '#fff', backgroundColor: '#ea5198', align: 'center' });
         button.setOrigin(0.5);
         button.setPadding(10, 10);
+        button.depth = 100;
         button.on('pointerup', () => {
             this.scene.restart();
         });
@@ -266,6 +270,7 @@ export default class MyScene extends Phaser.Scene {
         const title = this.add.text(x, y, scoreText, { fontSize: '38px', color: '#fff', align: 'center' });
         title.setOrigin(0.5);
         title.setShadow(5, 5, '#ea5198', 5);
+        title.depth = 100;
 
         // const buttonX = isPc ? 400 : window.innerWidth / 2;
         const buttonX = this.sys.canvas.width / 2;
@@ -273,6 +278,7 @@ export default class MyScene extends Phaser.Scene {
         const button = this.add.text(buttonX, buttonY, 'START', { fontSize: '32px', color: '#fff', backgroundColor: '#ea5198', align: 'center' });
         button.setOrigin(0.5);
         button.setPadding(10, 10);
+        button.depth = 100;
         button.on('pointerup', () => {
             this.gameTitle = false;
             title.destroy();
