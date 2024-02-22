@@ -66,7 +66,7 @@ export default class MyScene extends Phaser.Scene {
 
     preload() {
         ['0', '1', '2', '3', '4', '5', '6', '7'].forEach((key) => {
-            this.load.image(key, `./img/${key}.png`);
+            this.load.image(key, `./img/${key}.png?240222_4`);
         });
     }
 
@@ -157,7 +157,9 @@ export default class MyScene extends Phaser.Scene {
                 const ball1 = o1.gameObject;
                 const ball2 = o2.gameObject;
                 if ((this.ball !== ball1 && this.ball !== ball2 && ball1 === this.lastBall) || ball2 === this.lastBall) {
-                    this.nextBallReady = true;
+                    setTimeout(() => {
+                        this.nextBallReady = true;
+                    }, 200);
                 }
                 if (o1.label !== 'Circle Body' || o2.label !== 'Circle Body') {
                     return;
@@ -170,6 +172,7 @@ export default class MyScene extends Phaser.Scene {
                 if (ball1.isStatic() || ball2.isStatic()) {
                     return;
                 }
+
                 // 大きさが同じボールのみ消す
                 if (width1 !== width2) {
                     // ゲームオーバー判定  最後のボールがラインを超えたか？
@@ -179,7 +182,9 @@ export default class MyScene extends Phaser.Scene {
                     }
                     return;
                 }
-                this.nextBallReady = true;
+                setTimeout(() => {
+                    this.nextBallReady = true;
+                }, 200);
 
                 // スコア加算
                 const currentType = this.ballTypes.find((type) => type.size === width1);
@@ -196,7 +201,7 @@ export default class MyScene extends Phaser.Scene {
                 if (currentType) {
                     this.scoreDisplayCount++;
                     if (this.scoreDisplay) {
-                        this.scoreDisplay[this.scoreDisplayCount] = this.add.text(pos.x, pos.y, currentType.score.toString(), { fontSize: currentType.size + 'px', color: '#fff', align: 'center' });
+                        this.scoreDisplay[this.scoreDisplayCount] = this.add.text(pos.x, pos.y, currentType.score.toString(), { fontSize: Math.round(currentType.size * 0.75) + 'px', color: '#fff', align: 'center' });
                         this.scoreDisplay[this.scoreDisplayCount].setOrigin(0.5);
                         this.scoreDisplay[this.scoreDisplayCount].setStroke('#ea5198', 2);
                         this.scoreDisplay[this.scoreDisplayCount].depth = 10;
