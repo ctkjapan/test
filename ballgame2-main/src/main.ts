@@ -14,12 +14,20 @@ const config: Phaser.Types.Core.GameConfig = {
     type: Phaser.AUTO,
     width,
     height,
+    fps: {
+        forceSetTimeOut: true,
+        target: 60,
+    },
     physics: {
         default: 'matter',
         matter: {
             // debug: true,
-            gravity: { y: 1 },
+            gravity: { y: 3 },
             enableSleeping: false,
+            runner: {
+                isFixed: true,
+                fps: 60,
+            },
         },
     },
     transparent: true,

@@ -17,6 +17,7 @@ type BallType = {
 };
 
 export default class MyScene extends Phaser.Scene {
+    private version: string | string[];
     // 全部のボールいれとく
     private balls: Image[];
     // 落とす前のボール
@@ -38,9 +39,11 @@ export default class MyScene extends Phaser.Scene {
 
     // ゲームオーバーにする高さ
     private gameOverLineY: number;
+    private getBallY: number;
 
     constructor() {
         super({ key: 'myscene' });
+        this.version = '240226_1';
         this.balls = [];
         this.score = 0;
         this.nextBallReady = true;
@@ -59,6 +62,7 @@ export default class MyScene extends Phaser.Scene {
         ];
 
         this.gameOverLineY = 150;
+        this.getBallY = 100;
 
         this.scoreDisplay = [];
         this.scoreDisplayCount = 0;
@@ -66,7 +70,7 @@ export default class MyScene extends Phaser.Scene {
 
     preload() {
         ['0', '1', '2', '3', '4', '5', '6', '7'].forEach((key) => {
-            this.load.image(key, `./img/${key}.png?240222_5`);
+            this.load.image(key, `./img/${key}.png?${this.version}`);
         });
     }
 
@@ -83,18 +87,20 @@ export default class MyScene extends Phaser.Scene {
         this.gameOver = false;
         this.nextBallReady = true;
         this.balls = [];
-        this.scoreText = this.add.text(0, 0, `score: ${this.score}`);
+        this.scoreText = this.add.text(this.sys.canvas.width / 2, 28, `視聴者数: ${this.score} 人`, { fontSize: '28px', color: '#fff', align: 'center' });
+        this.scoreText.setOrigin(0.5);
         this.gameOverLineY = this.sys.canvas.height / 5;
+        this.getBallY = this.gameOverLineY - Math.round(this.sys.canvas.height / 13);
 
         this.ballTypes = [
-            { score: 10, size: Math.round(this.sys.canvas.height / 30), color: 0xff5733, key: '0' },
-            { score: 20, size: Math.round(this.sys.canvas.height / 20), color: 0x00bfa5, key: '1' },
-            { score: 30, size: Math.round(this.sys.canvas.height / 13), color: 0x6f42c1, key: '2' },
-            { score: 50, size: Math.round(this.sys.canvas.height / 8), color: 0x6f42c1, key: '3' },
-            { score: 70, size: Math.round(this.sys.canvas.height / 6), color: 0x2ecc71, key: '4' },
-            { score: 100, size: Math.round(this.sys.canvas.height / 4), color: 0xffc107, key: '5' },
-            { score: 250, size: Math.round(this.sys.canvas.height / 2.75), color: 0x3498db, key: '6' },
-            { score: 500, size: Math.round(this.sys.canvas.height / 1.65), color: 0xd32f2f, key: '7' },
+            { score: 1, size: Math.round(this.sys.canvas.height / 30), color: 0xff5733, key: '0' },
+            { score: 2, size: Math.round(this.sys.canvas.height / 20), color: 0x00bfa5, key: '1' },
+            { score: 3, size: Math.round(this.sys.canvas.height / 13), color: 0x6f42c1, key: '2' },
+            { score: 7, size: Math.round(this.sys.canvas.height / 8), color: 0x6f42c1, key: '3' },
+            { score: 15, size: Math.round(this.sys.canvas.height / 6), color: 0x2ecc71, key: '4' },
+            { score: 24, size: Math.round(this.sys.canvas.height / 4), color: 0xffc107, key: '5' },
+            { score: 40, size: Math.round(this.sys.canvas.height / 2.75), color: 0x3498db, key: '6' },
+            { score: 100, size: Math.round(this.sys.canvas.height / 1.65), color: 0xd32f2f, key: '7' },
         ];
 
         // クリックした時
@@ -109,7 +115,7 @@ export default class MyScene extends Phaser.Scene {
         // }
 
         // 最初のボールを作成
-        this.ball = this.getBall(this.sys.canvas.width / 2, this.gameOverLineY - 50, this.ballTypes[0], false);
+        this.ball = this.getBall(this.sys.canvas.width / 2, this.getBallY, this.ballTypes[0], false);
 
         this.drawGameTitleTexts();
 
@@ -157,9 +163,9 @@ export default class MyScene extends Phaser.Scene {
                 const ball1 = o1.gameObject;
                 const ball2 = o2.gameObject;
                 if ((this.ball !== ball1 && this.ball !== ball2 && ball1 === this.lastBall) || ball2 === this.lastBall) {
-                    setTimeout(() => {
-                        this.nextBallReady = true;
-                    }, 400);
+                    // setTimeout(() => {
+                    this.nextBallReady = true;
+                    // }, 400);
                 }
                 if (o1.label !== 'Circle Body' || o2.label !== 'Circle Body') {
                     return;
@@ -182,15 +188,15 @@ export default class MyScene extends Phaser.Scene {
                     }
                     return;
                 }
-                setTimeout(() => {
-                    this.nextBallReady = true;
-                }, 400);
+                // setTimeout(() => {
+                this.nextBallReady = true;
+                // }, 400);
 
                 // スコア加算
                 const currentType = this.ballTypes.find((type) => type.size === width1);
                 if (currentType) {
                     this.score += currentType.score;
-                    this.scoreText!.setText(`score: ${this.score}`);
+                    this.scoreText!.setText(`視聴者数: ${this.score} 人`);
                 }
                 ball1.destroy();
                 ball2.destroy();
@@ -248,6 +254,7 @@ export default class MyScene extends Phaser.Scene {
             return;
         }
         this.nextBallReady = false;
+
         // 物理エンジンを適用して落下さす
         const ball = this.ball!;
         this.applyPhysicsToBall(ball);
@@ -256,7 +263,7 @@ export default class MyScene extends Phaser.Scene {
         // 次のボール作る
         const ballType = this.ballTypes[random(0, 3)];
         // this.ball = this.getBall(400, 100, ballType);
-        this.ball = this.getBall(this.sys.canvas.width / 2, this.gameOverLineY - 50, ballType);
+        this.ball = this.getBall(this.sys.canvas.width / 2, this.getBallY, ballType);
     }
 
     // 次の大きさのボールつくる
@@ -279,10 +286,14 @@ export default class MyScene extends Phaser.Scene {
     // 本当はPCでも割合計算すればマジックナンバー不要かも
     // y座標は対応さぼった
     drawGameOverTexts() {
+        if (this.scoreText) {
+            this.scoreText.destroy();
+        }
+
         // const x = isPc ? 400 : window.innerWidth / 2;
         const x = this.sys.canvas.width / 2;
         const y = this.sys.canvas.height / 2 - 100;
-        const scoreText = isPc ? `GAMEOVER score: ${this.score}` : `GAMEOVER\nscore: ${this.score}`;
+        const scoreText = isPc ? `なんやねんこれもう 視聴者数: ${this.score} 人` : `なんやねんこれもう\n視聴者数: ${this.score} 人`;
         const title = this.add.text(x, y, scoreText, { fontSize: '40px', color: '#fff', backgroundColor: '#ea5198', align: 'center' });
         title.setOrigin(0.5);
         title.setPadding(10, 10);
@@ -311,6 +322,13 @@ export default class MyScene extends Phaser.Scene {
         title.setShadow(5, 5, '#ea5198', 5);
         title.depth = 100;
 
+        const versionX = this.sys.canvas.width / 2;
+        const versionY = this.sys.canvas.height - 10;
+        const versionText = this.version;
+        const version = this.add.text(versionX, versionY, versionText, { fontSize: '10px', color: '#fff', align: 'center' });
+        version.setOrigin(0.5);
+        version.depth = 100;
+
         // const buttonX = isPc ? 400 : window.innerWidth / 2;
         const buttonX = this.sys.canvas.width / 2;
         const buttonY = this.sys.canvas.height / 2 + 100;
@@ -321,6 +339,7 @@ export default class MyScene extends Phaser.Scene {
         button.on('pointerup', () => {
             this.gameTitle = false;
             title.destroy();
+            version.destroy();
             button.destroy();
 
             // ゲームオーバーの線
